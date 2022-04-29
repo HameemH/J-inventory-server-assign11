@@ -22,6 +22,13 @@ async function run(){
       
         res.send(items);
     });
+
+    app.post('/item', async(req, res) =>{
+        const item = req.body;
+        console.log('adding new user', item);
+        const result = await collection.insertOne(item);
+        res.send(result)
+    });
    }
 
     finally {
