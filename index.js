@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const port = process.env.PORT || 5000;
 
 app.use(cors());
@@ -29,6 +29,13 @@ async function run(){
         const result = await collection.insertOne(item);
         res.send(result)
     });
+
+    app.get('/item/:id', async(req,res) =>{
+        const id = req.params.id;
+        const query ={_id: ObjectId(id)};
+        const result = await collection.findOne(query);
+        res.send(result)
+    })
    }
 
     finally {
