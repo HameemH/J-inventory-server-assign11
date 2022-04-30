@@ -14,7 +14,7 @@ async function run(){
    try{
     await client.connect();
     const collection = client.db("Inventory").collection("laptops");
-    console.log(collection);
+    
     app.get('/item', async (req, res) => {
         const query = {};
         const cursor = collection.find(query);
@@ -25,7 +25,6 @@ async function run(){
 
     app.post('/item', async(req, res) =>{
         const item = req.body;
-        console.log('adding new user', item);
         const result = await collection.insertOne(item);
         res.send(result)
     });
@@ -36,6 +35,14 @@ async function run(){
         const result = await collection.findOne(query);
         res.send(result)
     })
+    app.delete('/item/:id', async(req, res) =>{
+        const id = req.params.id;
+        const query = {_id: ObjectId(id)};
+        const result = await collection.deleteOne(query);
+        res.send(result);
+    })
+
+
    }
 
     finally {
