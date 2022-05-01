@@ -67,6 +67,7 @@ async function run(){
         const id = req.params.id;
         const query = {_id: ObjectId(id)};
         const result = await collection.deleteOne(query);
+        const addedresult = await addedcollection.deleteOne(query);
         res.send(result);
     })
 
