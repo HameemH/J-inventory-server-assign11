@@ -20,13 +20,13 @@ async function run(){
         const query = {};
         const cursor = collection.find(query);
         const items = await cursor.toArray();
-      
         res.send(items);
     });
 
     app.post('/item', async(req, res) =>{
         const item = req.body;
         const result = await collection.insertOne(item);
+        const addedresult = await addedcollection.insertOne(item);
         res.send(result)
     });
    /*  app.get('/addeditem', async (req, res) => {
@@ -51,11 +51,11 @@ async function run(){
         res.send(items);
     });
    
-    app.post('/addeditem', async(req, res) =>{
-        const item = req.body;
-        const result = await addedcollection.insertOne(item);
-        res.send(result)
-    });
+    // app.post('/addeditem', async(req, res) =>{
+    //     const item = req.body;
+    //     const result = await addedcollection.insertOne(item);
+    //     res.send(result)
+    // });
 
     app.get('/item/:id', async(req,res) =>{
         const id = req.params.id;
