@@ -14,6 +14,7 @@ async function run(){
    try{
     await client.connect();
     const collection = client.db("Inventory").collection("laptops");
+    const addedcollection = client.db("Inventory").collection("addeditemCollection");
     
     app.get('/item', async (req, res) => {
         const query = {};
@@ -26,6 +27,33 @@ async function run(){
     app.post('/item', async(req, res) =>{
         const item = req.body;
         const result = await collection.insertOne(item);
+        res.send(result)
+    });
+   /*  app.get('/addeditem', async (req, res) => {
+        console.log('db connected');
+       
+         const query = {};
+         const cursor = addedcollection.find(query);
+         const items = await cursor.toArray();
+       
+         res.send(items);
+     });
+ */
+
+    app.get('/addeditem', async (req, res) => {
+        const email = req.query.vendorEmail;
+        console.log(req.query);
+        console.log(email);
+        const query = {vendorEmail:email};
+        const cursor = addedcollection.find(query);
+        const items = await cursor.toArray();
+      
+        res.send(items);
+    });
+   
+    app.post('/addeditem', async(req, res) =>{
+        const item = req.body;
+        const result = await addedcollection.insertOne(item);
         res.send(result)
     });
 
