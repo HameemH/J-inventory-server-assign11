@@ -69,6 +69,7 @@ async function run(){
             }
         };
         const result = await collection.updateOne(filter, updatedDoc, options);
+        const addedresult = await addedcollection.updateOne(filter, updatedDoc, options);
         res.send(result);
 
     })
