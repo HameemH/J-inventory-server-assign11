@@ -29,16 +29,7 @@ async function run(){
         const addedresult = await addedcollection.insertOne(item);
         res.send(result)
     });
-   /*  app.get('/addeditem', async (req, res) => {
-        console.log('db connected');
-       
-         const query = {};
-         const cursor = addedcollection.find(query);
-         const items = await cursor.toArray();
-       
-         res.send(items);
-     });
- */
+ 
 
     app.get('/addeditem', async (req, res) => {
         const email = req.query.vendorEmail;
@@ -51,11 +42,7 @@ async function run(){
         res.send(items);
     });
    
-    // app.post('/addeditem', async(req, res) =>{
-    //     const item = req.body;
-    //     const result = await addedcollection.insertOne(item);
-    //     res.send(result)
-    // });
+  
 
     app.get('/item/:id', async(req,res) =>{
         const id = req.params.id;
@@ -69,6 +56,21 @@ async function run(){
         const result = await collection.deleteOne(query);
         const addedresult = await addedcollection.deleteOne(query);
         res.send(result);
+    })
+    app.put('/item/:id', async(req, res) =>{
+        const id = req.params.id;
+        const updatedUser = req.body.quantity;
+        console.log(updatedUser);
+        const filter = {_id: ObjectId(id)};
+        const options = { upsert: true };
+        const updatedDoc = {
+            $set: {
+              quantity: updatedUser
+            }
+        };
+        const result = await collection.updateOne(filter, updatedDoc, options);
+        res.send(result);
+
     })
 
 
